@@ -8,11 +8,11 @@
 		<version>3.4.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.notification.service</groupId>
+	<groupId>com.ecommerce</groupId>
 	<artifactId>notification-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>notification-service</name>
-	<description>Notification Service</description>
+	<description>Real-Time Order Processing System (E-commerce)</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -72,6 +72,25 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.ecommerce</groupId>
+			<artifactId>common-dto</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JavaMail for Sending Emails -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- Twilio for Sending SMS -->
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>8.31.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
