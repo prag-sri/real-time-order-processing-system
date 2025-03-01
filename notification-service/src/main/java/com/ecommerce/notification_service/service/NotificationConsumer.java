@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 public class NotificationConsumer {
 
     private final NotificationRepository notificationRepository;
+    private final EmailService emailService;
 
-    public NotificationConsumer(NotificationRepository notificationRepository){
+    public NotificationConsumer(NotificationRepository notificationRepository, EmailService emailService){
         this.notificationRepository = notificationRepository;
+        this.emailService = emailService;
     }
 
     @KafkaListener(topics = "payment_events", groupId = "notification_group")
@@ -38,6 +40,13 @@ public class NotificationConsumer {
                         LocalDateTime.now()
                 );
                 notificationRepository.save(notification);
+
+                // Construct Messages
+                String emailSubject = "🛒 Order Confirmation - " + paymentSuccessEvent.getOrderId();
+                String emailMessage = "Dear Customer,\n\nYour order " + paymentSuccessEvent.getOrderId() + " has been placed successfully.";
+
+                // Send Email
+                emailService.sendEmail(paymentSuccessEvent.getUserId(), emailSubject, emailMessage);
 
                 System.out.println("📧 Email/SMS sent to User: " + paymentSuccessEvent.getUserId());
             }
