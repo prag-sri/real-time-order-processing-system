@@ -5,6 +5,8 @@ import com.ecommerce.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -13,5 +15,9 @@ public class OrderService {
 
     public Order saveOrder(Order order){
         return orderRepository.save(order);
+    }
+
+    public Optional<Order> getOrderById(Long id){
+        return orderRepository.findById(id);
     }
 }

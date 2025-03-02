@@ -6,6 +6,8 @@ import com.ecommerce.order_service.model.OrderItem;
 import com.ecommerce.order_service.service.OrderProducer;
 import com.ecommerce.order_service.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('USER')")
     public String createOrder(@RequestBody Order orderRequest){
         Order order = new Order(
                 null,
@@ -47,5 +50,13 @@ public class OrderController {
 
         orderProducer.sendOrderEvent(orderEvent);
         return "✅ Order Created & Event Published: "+order.getId().toString();
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id){
+        return orderService.getOrderById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
